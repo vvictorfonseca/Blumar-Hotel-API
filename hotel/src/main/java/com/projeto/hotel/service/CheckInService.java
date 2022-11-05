@@ -25,10 +25,14 @@ public class CheckInService {
 
   public ResponseEntity<?> createCheckIn(CheckIn newCheckIn) {
     Room room = roomDb.findByCodigo(newCheckIn.getRoom().getCodigo());
-
+    
     if(roomDb.roomTypeAvailable(room.getType()) == 0) {
       message.setMessage("Não existe quarto deste tipo disponível");
-      return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+    
+    } else if(!room.isAvailable()) {
+      message.setMessage("Este quarto não está disponível");
+      return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     
     } else if(roomDb.countByCodigo(room.getCodigo()) == 0) {
       message.setMessage("Esse quarto não existe");
