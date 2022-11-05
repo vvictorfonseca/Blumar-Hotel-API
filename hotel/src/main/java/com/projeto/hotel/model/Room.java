@@ -6,8 +6,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -32,8 +30,6 @@ public class Room {
   @Digits(integer = 3, fraction = 0, message = "O número do quarto deve ter 3 dígitos")
   private int number;
 
-  @Min(value = 30, message = "Não existem quartos abaixo desse preço")
-  @Max(value = 80, message = "Não existem quartos acima desse preço")
   private int price;
 
   @NotNull(message = "Infome se o quarto está disponível: true|false")

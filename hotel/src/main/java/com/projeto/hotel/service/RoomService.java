@@ -15,6 +15,17 @@ public class RoomService {
   private RoomRepository roomDb;
 
   public ResponseEntity<?> createRoom(Room newRoom) {
+
+    if(newRoom.getType().equals("Individual")) {
+      newRoom.setPrice(30);
+    
+    } else if(newRoom.getType().equals("Acompanhante")) {
+      newRoom.setPrice(50);
+    
+    } else if(newRoom.getType().equals("Criança")) {
+      newRoom.setPrice(80);
+    }
+
     return new ResponseEntity<>(roomDb.save(newRoom), HttpStatus.CREATED);
   }
 
