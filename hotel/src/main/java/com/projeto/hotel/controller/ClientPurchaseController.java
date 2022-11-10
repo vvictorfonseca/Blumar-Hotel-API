@@ -22,7 +22,7 @@ public class ClientPurchaseController {
   private ClientPurchaseService purchaseService;
 
   @PostMapping("/create")
-  public ResponseEntity<?> newPurchase(@Valid @RequestBody ClientPurchase newPurchase) {
+  public ResponseEntity<Object> newPurchase(@Valid @RequestBody ClientPurchase newPurchase) {
     return purchaseService.newPurchase(newPurchase);
   }
 

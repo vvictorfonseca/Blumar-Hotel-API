@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.projeto.hotel.model.CheckIn;
-//import com.projeto.hotel.repository.CheckInRepository;
 import com.projeto.hotel.service.CheckInService;
 
 @RestController
@@ -23,8 +22,5 @@ public class CheckInController {
   @PostMapping("/create")
   public ResponseEntity<?> createCheckIn(@Valid @RequestBody CheckIn newCheckIn) {
     return checkInService.createCheckIn(newCheckIn);
-  }
-  public ResponseEntity<?> updateRoom(@Valid @RequestBody CheckIn newCheckIn) {
-    return checkInService.updateRoom(newCheckIn);
   }
 }
