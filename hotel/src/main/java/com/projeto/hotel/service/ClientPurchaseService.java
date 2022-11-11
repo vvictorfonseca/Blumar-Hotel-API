@@ -1,5 +1,7 @@
 package com.projeto.hotel.service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,13 +24,16 @@ public class ClientPurchaseService {
   private ClientPurchaseRepository purchaseDb;
 
   @Autowired
+  private ClientPurchaseRepository purchasesDb;
+
+  @Autowired
   private CheckInRepository checkInDb;
 
   @Autowired
   private ResponseMessage message;
 
   public ResponseEntity<Object> newPurchase(ClientPurchase newPurchase) {
-    Optional<CheckIn> checkIn = checkInDb.findByCodigo(newPurchase.getCheckIn().getCodigo());
+    Optional<CheckIn> checkIn = checkInDb.findById(newPurchase.getCheckIn().getId());
 
     if (!checkIn.isPresent()) {
       message.setMessage("Este checkIn não existe");
@@ -48,13 +53,14 @@ public class ClientPurchaseService {
     purchaseResponse.setProductName(newPurchase.getProductName());
     purchaseResponse.setProductPrice(newPurchase.getProductPrice());
 
+    newPurchase.setRegistrationDate(LocalDateTime.now(ZoneId.of("UTC")));
     purchaseDb.save(newPurchase);
     return new ResponseEntity<Object>(purchaseResponse, HttpStatus.CREATED);
   }
 
-  public ResponseEntity<Object> getClientPurchases(Long codigo) {
-    Optional<CheckIn> checkIn = checkInDb.findByCodigo(codigo);
-    List<Object> purchaseResponse = purchaseDb.clientPurchases(codigo);
+  public ResponseEntity<Object> getClientPurchases(Long id) {
+    Optional<CheckIn> checkIn = checkInDb.findById(id);
+    List<ClientPurchase> purchaseResponse = purchasesDb.clientPurchases(id);
 
     if (!checkIn.isPresent()) {
       message.setMessage("Este checkIn não existe");
@@ -65,7 +71,7 @@ public class ClientPurchaseService {
       return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
     }
 
-    return new ResponseEntity<Object>(purchaseResponse, HttpStatus.OK);
+    return new ResponseEntity<>(purchaseResponse, HttpStatus.OK);
 
   }
 }

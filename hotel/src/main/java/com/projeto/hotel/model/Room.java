@@ -1,5 +1,7 @@
 package com.projeto.hotel.model;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,7 +22,7 @@ public class Room {
   
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long codigo;
+  private long id;
 
   private String hotelName = "Hotel Blumar";
   
@@ -34,5 +36,7 @@ public class Room {
 
   @NotNull(message = "Infome se o quarto está disponível: true|false")
   private boolean available;
+
+  private LocalDateTime registrationDate;
 
 }

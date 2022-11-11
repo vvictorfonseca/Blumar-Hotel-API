@@ -1,5 +1,7 @@
 package com.projeto.hotel.model;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,10 +23,10 @@ public class ClientPurchase {
   
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long codigo;
+  private Long id;
 
   @OneToOne
-  @JoinColumn(name = "codigo_checkIn", referencedColumnName = "codigo")
+  @JoinColumn(name = "checkInId", referencedColumnName = "id")
   private CheckIn checkIn;
 
   @NotEmpty(message = "Preencha o nome do produto")
@@ -32,5 +34,7 @@ public class ClientPurchase {
   private String productName;
 
   private int productPrice;
+
+  private LocalDateTime registrationDate;
 
 }

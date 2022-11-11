@@ -1,5 +1,8 @@
 package com.projeto.hotel.service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +29,7 @@ public class RoomService {
       newRoom.setPrice(80);
     }
 
+    newRoom.setRegistrationDate(LocalDateTime.now(ZoneId.of("UTC")));
     return new ResponseEntity<>(roomDb.save(newRoom), HttpStatus.CREATED);
   }
 

@@ -1,6 +1,7 @@
 package com.projeto.hotel.model;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,10 +27,10 @@ public class CheckIn {
   
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long codigo;
+  private Long id;
 
   @OneToOne
-  @JoinColumn(name = "codigo_room", referencedColumnName = "codigo")
+  @JoinColumn(name = "roomId", referencedColumnName = "id")
   private Room room;
 
   @Pattern(regexp = "Individual|Acompanhante|Criança", flags = Pattern.Flag.CASE_INSENSITIVE, message = "Escolha o tipo correto: Individual|Acompanhante|Criança")
@@ -39,8 +40,8 @@ public class CheckIn {
   @Length(min = 3, max = 30, message = "Informe um nome válido: mín. 3 caracteres, máx. 30 caracteres")
   private String clientName;
 
-  private String status = "valid";
-
-  @Future(message = "Insira uma data válida!")
+  @Future(message = "Insira uma data válida! yyyy/MM/DD")
   private Date checkoutDate;
+
+  private LocalDateTime registrationDate;
 }
