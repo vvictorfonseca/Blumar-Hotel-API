@@ -41,10 +41,7 @@ API:
     - body: 
     {
       "room": {
-        "codigo": 1,
-        "type": "Individual",
-        "number": 202,
-        "price": 30,
+        "id": 1
         },
       "roomType": "Individual",
       "clientName": "Frederico Cunha",
@@ -57,13 +54,13 @@ API:
     - body: 
     {
       "checkIn": {
-       "codigo": 5
+       "id": 1
        },
       "productName": "Cerveja"
     }
 ```
 ```bash
-- GET /purchase/get/{codigo}
+- GET /purchase/get/{id}
     - Rota para listar todos os produtos que o cliente adquiriu durante a estadia.
     - Informar o id do checkin no parâmetro da rota
 ```
