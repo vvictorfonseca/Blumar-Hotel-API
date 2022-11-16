@@ -26,9 +26,9 @@ public class ClientPurchaseController {
     return purchaseService.newPurchase(newPurchase);
   }
 
-  @GetMapping("/get/{codigo}")
-  public ResponseEntity<?> getPurchases(@PathVariable Long codigo) {
-    return purchaseService.getClientPurchases(codigo);
+  @GetMapping("/get/{id}")
+  public ResponseEntity<?> getPurchases(@PathVariable Long id) {
+    return purchaseService.getClientPurchases(id);
   }
   
 }
