@@ -41,10 +41,14 @@ public class CheckOutService {
   
   public ResponseEntity<Object> createCheckOut(Long checkInId) {
     Optional<CheckIn> checkInExist = checkInDb.findById(checkInId);
+    Optional<CheckOut> checkOutExist = checkOutDb.checkOutExist(checkInId);
 
     if(!checkInExist.isPresent()) {
       message.setMessage("Esse checkIn não existe");
       return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+    } else if(checkOutExist.isPresent()) {
+      message.setMessage("Já foi feito o CheckOut neste CheckIn!");
+      return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     }
 
     List<ClientPurchase> purchases = purchasesDb.clientPurchases(checkInId);
