@@ -24,7 +24,7 @@ import com.projeto.hotel.repository.RoomRepository;
 
 @Service
 public class CheckOutService {
-  
+
   @Autowired
   private RoomRepository roomDb;
 
@@ -39,48 +39,52 @@ public class CheckOutService {
 
   @Autowired
   private ResponseMessage message;
-  
+
   public ResponseEntity<Object> createCheckOut(Long checkInId) {
     Optional<CheckIn> checkInExist = checkInDb.findById(checkInId);
     Optional<CheckOut> checkOutExist = checkOutDb.checkOutExist(checkInId);
 
-    if(!checkInExist.isPresent()) {
+    if (!checkInExist.isPresent()) {
       message.setMessage("Esse checkIn não existe");
       return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
-    } else if(checkOutExist.isPresent()) {
+    } else if (checkOutExist.isPresent()) {
       message.setMessage("Já foi feito o CheckOut neste CheckIn!");
       return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     }
 
     List<ClientPurchase> purchases = purchasesDb.clientPurchases(checkInId);
+    List<Object> products = purchasesDb.clientProducts(checkInId);
     CheckIn checkIn = checkInDb.getById(checkInId);
     Room room = roomDb.getById(checkIn.getRoom().getId());
-    List<Object> products = purchasesDb.clientProducts(checkInId);
-    
+
     CheckOut checkOut = new CheckOut();
     CheckOutResponse checkOutResponse = new CheckOutResponse();
 
-    purchases.forEach(purchase -> checkOut.setTotalValue(checkOut.getTotalValue() + purchase.getProductPrice()) );
+    purchases.forEach(purchase -> checkOut.setTotalValue(checkOut.getTotalValue() + purchase.getProductPrice()));
+    
     LocalDateTime dtToday = LocalDateTime.now(ZoneId.of("UTC"));
     LocalDateTime dtCheckIn = checkIn.getRegistrationDate();
-    
-    checkOut.setHostingPeriod(ChronoUnit.DAYS.between(dtCheckIn, dtToday));
-    checkOut.setTotalValue(checkOut.getTotalValue() + room.getPrice());
+
+    Long hostingPeriod = ChronoUnit.DAYS.between(dtCheckIn, dtToday);
+    int totalValue = checkOut.getTotalValue() + room.getPrice();
+
+    checkOut.setHostingPeriod(hostingPeriod);
+    checkOut.setTotalValue(totalValue);
     checkOut.setClientName(checkIn.getClientName());
-    checkOut.setHotelName(room.getHotelName());
     checkOut.setRoomNumber(room.getNumber());
     checkOut.setCheckIn(checkIn);
 
+    checkOutResponse.setHostingPeriod(hostingPeriod);
+    checkOutResponse.setTotalValue(totalValue);
     checkOutResponse.setClientName(checkIn.getClientName());
-    checkOutResponse.setProducts(products);
     checkOutResponse.setRoomNumber(room.getNumber());
-    checkOutResponse.setHostingPeriod(ChronoUnit.DAYS.between(dtCheckIn, dtToday));
-    checkOutResponse.setTotalValue(checkOut.getTotalValue());
-    
+    checkOutResponse.setProducts(products);
+
     room.setAvailable(true);
-    
+
     roomDb.save(room);
     checkOutDb.save(checkOut);
     return new ResponseEntity<>(checkOutResponse, HttpStatus.CREATED);
+
   }
 }
