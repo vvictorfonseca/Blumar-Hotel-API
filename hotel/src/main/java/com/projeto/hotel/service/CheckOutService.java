@@ -63,10 +63,10 @@ public class CheckOutService {
     checkOut.setHotelName(room.getHotelName());
     checkOut.setRoomNumber(room.getNumber());
     checkOut.setCheckIn(checkIn);
-    System.out.println(checkOut.getTotalValue());
-    System.out.println(checkOut.getHostingPeriod());
-
-    return new ResponseEntity<>(checkOutDb.save(checkOut), HttpStatus.CREATED);
     
+    room.setAvailable(true);
+    
+    roomDb.save(room);
+    return new ResponseEntity<>(checkOutDb.save(checkOut), HttpStatus.CREATED);
   }
 }
