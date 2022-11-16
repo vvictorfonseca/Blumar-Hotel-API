@@ -14,4 +14,7 @@ public interface ClientPurchaseRepository extends CrudRepository<ClientPurchase,
   @Query(value = "SELECT * FROM client_purchases WHERE check_in_id = :id", nativeQuery = true)
   List<ClientPurchase> clientPurchases(Long id);
 
+  @Query(value = "SELECT product_name, product_price FROM client_purchases WHERE check_in_id = :id", nativeQuery = true)
+  List<Object> clientProducts(Long id);
+
 }

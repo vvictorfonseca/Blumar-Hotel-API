@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.projeto.hotel.ModelResponse.CheckOutResponse;
 import com.projeto.hotel.model.CheckIn;
 import com.projeto.hotel.model.CheckOut;
 import com.projeto.hotel.model.ClientPurchase;
@@ -54,8 +55,10 @@ public class CheckOutService {
     List<ClientPurchase> purchases = purchasesDb.clientPurchases(checkInId);
     CheckIn checkIn = checkInDb.getById(checkInId);
     Room room = roomDb.getById(checkIn.getRoom().getId());
+    List<Object> products = purchasesDb.clientProducts(checkInId);
     
     CheckOut checkOut = new CheckOut();
+    CheckOutResponse checkOutResponse = new CheckOutResponse();
 
     purchases.forEach(purchase -> checkOut.setTotalValue(checkOut.getTotalValue() + purchase.getProductPrice()) );
     LocalDateTime dtToday = LocalDateTime.now(ZoneId.of("UTC"));
@@ -67,10 +70,17 @@ public class CheckOutService {
     checkOut.setHotelName(room.getHotelName());
     checkOut.setRoomNumber(room.getNumber());
     checkOut.setCheckIn(checkIn);
+
+    checkOutResponse.setClientName(checkIn.getClientName());
+    checkOutResponse.setProducts(products);
+    checkOutResponse.setRoomNumber(room.getNumber());
+    checkOutResponse.setHostingPeriod(ChronoUnit.DAYS.between(dtCheckIn, dtToday));
+    checkOutResponse.setTotalValue(checkOut.getTotalValue());
     
     room.setAvailable(true);
     
     roomDb.save(room);
-    return new ResponseEntity<>(checkOutDb.save(checkOut), HttpStatus.CREATED);
+    checkOutDb.save(checkOut);
+    return new ResponseEntity<>(checkOutResponse, HttpStatus.CREATED);
   }
 }
