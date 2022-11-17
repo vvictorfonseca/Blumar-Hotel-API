@@ -17,11 +17,11 @@ Blumar Hotel é uma API de gerenciamento de hotel.
 
 ##  :hammer: Principais Funcionalidades
 
-- É possível criar novos quartos para o Hotel.
-- É possível criar um novo check-in, caso seja efetivado o quarto alugado fica desabilitado para novas reservas.
+- Opção de criar novos quartos para o Hotel. 
+- Opção de checkIn.
 - Como cliente, é possível fazer compras de produtos durante a estadia.
 - Como cliente, é possível checar as compras efetuadas durante a estadia.
-- Opção de checkOut. Retornando os dias de estadia do cliente, produtos adquiridos e o valor total da estadia (valor do quarto + valor produtos).
+- Opção de checkOut.
 ***
 
 API:
@@ -35,6 +35,7 @@ API:
         "number": 202,
         "available": true
     }
+    - Retorna as informações do quarto
 ```
 ```bash
 - POST /checkIn/create
@@ -48,6 +49,7 @@ API:
       "clientName": "Frederico Cunha",
       "checkoutDate": "2022-11-20"
     }
+    - Retorna o número do qusrto, o tipo de quarto e o valor do quarto para o cliente. Caso seja efetivado o quarto alugado fica desabilitado para novas reservas.
 ```
 ```bash
 - Post /purchase/create/
@@ -69,4 +71,5 @@ API:
 - GET /checkOut/{id}
     - Rota para efetuar o checkOut de um cliente.
     - Informar o id do checkin no parâmetro da rota.
+    - Retorna os dias de estadia do cliente, produtos adquiridos e o valor total da estadia (valor do quarto + valor produtos). Caso seja efetivado o quarto alugado fica habilidato novamente para novas reservas.
 ```
