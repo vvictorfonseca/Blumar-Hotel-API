@@ -21,6 +21,7 @@ Blumar Hotel é uma API de gerenciamento de hotel.
 - É possível criar um novo check-in, caso seja efetivado o quarto alugado fica desabilitado para novas reservas.
 - Como cliente, é possível fazer compras de produtos durante a estadia.
 - Como cliente, é possível checar as compras efetuadas durante a estadia.
+- Opção de checkOut. Retornando os dias de estadia do cliente, produtos adquiridos e o valor total da estadia (valor do quarto + valor produtos).
 ***
 
 API:
@@ -62,5 +63,10 @@ API:
 ```bash
 - GET /purchase/get/{id}
     - Rota para listar todos os produtos que o cliente adquiriu durante a estadia.
-    - Informar o id do checkin no parâmetro da rota
+    - Informar o id do checkin no parâmetro da rota.
+```
+```bash
+- GET /checkOut/{id}
+    - Rota para efetuar o checkOut de um cliente.
+    - Informar o id do checkin no parâmetro da rota.
 ```
