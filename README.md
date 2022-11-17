@@ -49,7 +49,7 @@ API:
       "clientName": "Frederico Cunha",
       "checkoutDate": "2022-11-20"
     }
-    - Retorna o número do qusrto, o tipo de quarto e o valor do quarto para o cliente. Caso seja efetivado o quarto alugado fica desabilitado para novas reservas.
+    - Retorna o número do quarto, o tipo de quarto e o valor do quarto para o cliente. Caso seja efetivado o quarto alugado fica desabilitado para novas reservas.
 ```
 ```bash
 - Post /purchase/create/
